@@ -1,0 +1,33 @@
+﻿@model HunterW_FinancialPortal.Models.Budget
+
+<div class="container">
+	<div class="row justify-content-md-center">
+		<div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
+			<div class="login-screen">
+				<div class="login-box">
+					@using (Html.BeginForm())
+					{
+						@Html.AntiForgeryToken()
+						@Html.HiddenFor(model => model.HouseholdId)
+						<a href="#" class="login-logo">
+							<span class="text-gray-dark">Create A Budget</span>
+						</a>
+						<h5>Please create a budget.<br />This is where you will group different things.<br />For example, you might have a "Utilities" budget that covers water, electricity, etc.</h5>
+						@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+						<div class="form-group">
+							@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Budget Name" } })
+							@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+						</div>
+						<div class="form-group">
+							@Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", placeholder = "Description" } })
+							@Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+						</div>
+						<div class="form-group">
+							<input type="submit" value="Next: Add A Budget Item" class="btn btn-primary mb-2" />
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

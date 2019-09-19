@@ -1,0 +1,103 @@
+﻿@using HunterW_FinancialPortal.Models
+@model RegisterViewModel
+@{
+	Layout = null;
+}
+
+<style>
+	.fileUpload {
+		width: 0.1px;
+		height: 0.1px;
+		opacity: 0;
+		overflow: hidden;
+		position: absolute;
+		z-index: -1;
+	}
+</style>
+
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Meta -->
+	<meta name="description" content="Responsive Bootstrap4 Dashboard Template">
+	<meta name="author" content="ParkerThemes">
+	<link rel="shortcut icon" href="~/Images/fav.png" />
+
+	<!-- Title -->
+	<title>HW Budget Assistant</title>
+
+	<!-- *************
+		************ Common Css Files *************
+		************ -->
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+
+	<!-- Master CSS -->
+	<link rel="stylesheet" href="~/Content/main.css" />
+
+</head>
+
+<body class="authentication">
+
+	<!-- Container start -->
+	<div class="container">
+		<div class="row justify-content-md-center">
+			<div class="col-xl-5 col-lg-6 col-md-6 col-sm-12">
+				<div class="login-screen">
+					<div class="login-box">
+						@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "login__form", role = "form", enctype = "Multipart/form-data" }))
+						{
+							@Html.AntiForgeryToken()
+							<a href="#" class="login-logo">
+								<span class="text-dark">HW Budget Assistant</span>
+							</a>
+							<h5>Welcome!<br />Please create an account.</h5>
+							<div class="form-group">
+								@Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control", @placeholder = "Username" })
+							</div>
+							<div class="form-group">
+								@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First Name" })
+							</div>
+							<div class="form-group">
+								@Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last Name" })
+							</div>
+							<div class="form-group">
+								@Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email Address" })
+							</div>
+							<div class="form-group">
+								@Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+								<small id="passwordHelpInline" class="text-muted">
+									Password must be at least 6 characters and have a lowercase letter, an uppercase letter, a number, and a symbol character.
+								</small>
+							</div>
+							<div class="form-group">
+								@Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm Password" })
+							</div>
+							<div class="or">
+								<span>Optional: Add An Avatar</span>
+							</div>
+							<div class="form-group actions">
+								<input type="file" name="Avatar" id="Avatar" class="fileUpload" />
+								<label for="Avatar" class="btn btn-primary">Add Avatar</label>
+								@Html.ValidationMessageFor(model => model.AvatarUrl, "", new { @class = "text-danger" })
+							</div>
+							<div class="actions">
+								<button type="submit" class="btn btn-primary">Register</button>
+							</div>
+							<div class="m-0">
+								<span class="additional-link">Already have an account? @Html.ActionLink("Log In", "Login", "Account")</span>
+							</div>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Container end -->
+
+</body>
+</html>

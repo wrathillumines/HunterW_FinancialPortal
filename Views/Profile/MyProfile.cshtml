@@ -1,0 +1,51 @@
+﻿@model HunterW_FinancialPortal.Models.UserProfileViewModel
+
+<style>
+	.profilephoto {
+		text-align: right;
+	}
+</style>
+
+<div class="main-container">
+	<!-- Page header start -->
+	<div class="page-title">
+		<div class="row gutters">
+			<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+				<h5 class="title">My Profile</h5>
+			</div>
+		</div>
+	</div>
+	<!-- Page header end -->
+	<!-- Content wrapper start -->
+	<div class="content-wrapper">
+		<!-- Row start -->
+		<div class="row gutters">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center">
+				<div class="jumbotron">
+					<h2 class="display-4 text-info">@Model.FirstName @Model.LastName</h2>
+					<hr class="my-4" />
+					<div class="row">
+						<div class="col-md-6 profilephoto">
+							<img src="@Model.AvatarUrl" height="250" width="250" />
+						</div>
+						<div class="col-md-6 text-left">
+							<h4 class="text-danger">Username:</h4>
+							<h4>@Model.DisplayName</h4>
+							<br />
+							<h4 class="text-danger">Email:</h4>
+							<h4>@Model.Email</h4>
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						<div class="col-md-12 text-center">
+							<h5>@Html.ActionLink("Edit My Profile", "EditProfile", "Profile")</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Row end -->
+	</div>
+	<!-- Content wrapper end -->
+</div>

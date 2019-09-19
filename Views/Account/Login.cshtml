@@ -1,0 +1,73 @@
+﻿@using HunterW_FinancialPortal.Models
+@model LoginViewModel
+@{
+	Layout = null;
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Meta -->
+	<meta name="description" content="Responsive Bootstrap4 Dashboard Template">
+	<meta name="author" content="ParkerThemes">
+	<link rel="shortcut icon" href="~/Images/fav.png" />
+
+	<!-- Title -->
+	<title>HW Budget Assistant</title>
+
+	<!-- *************
+		************ Common Css Files *************
+		************ -->
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+
+	<!-- Master CSS -->
+	<link rel="stylesheet" href="~/Content/main.css" />
+
+</head>
+
+<body class="authentication">
+
+	<!-- Container start -->
+	<div class="container">
+		<div class="row justify-content-md-center">
+			<div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
+				<div class="login-screen">
+					<div class="login-box">
+						@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+						{
+							@Html.AntiForgeryToken()
+							<a href="#" class="login-logo">
+								<span class="text-gray-dark">HW Budget Assistant</span>
+							</a>
+							<h5>Welcome back!<br />Please log in to your Account.</h5>
+							@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+							<div class="form-group">
+								@Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email Address" })
+								@Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group">
+								@Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+								@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+							</div>
+							<div class="actions">
+								@Html.ActionLink("Forgot Password", "ForgotPassword", "Account")
+								<button type="submit" class="btn btn-info">Login</button>
+							</div>
+							<div class="m-0">
+								<span class="additional-link">No account? @Html.ActionLink("Register Here", "Register", "Account")</span>
+							</div>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Container end -->
+
+</body>
+</html>

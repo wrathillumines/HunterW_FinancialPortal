@@ -1,0 +1,103 @@
+﻿@model IEnumerable<HunterW_FinancialPortal.Models.Transaction>
+
+<!-- Data Tables Stuff -->
+<link rel="stylesheet" type="text/css" href="~/Content/dataTables.bootstrap4.css" />
+<script src="~/Scripts/jquery.min.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.dataTables.js"></script>
+<script type="text/javascript" src="~/Scripts/dataTables.bootstrap4.js"></script>
+
+<div class="main-container">
+	<!-- Page header start -->
+	<div class="page-title">
+		<div class="row gutters">
+			<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+				<h5 class="title">All Transactions</h5>
+			</div>
+		</div>
+	</div>
+	<!-- Page header end -->
+	<!-- Content wrapper start -->
+	<div class="content-wrapper">
+		<!-- Row start -->
+		<div class="row gutters">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+				<div class="jumbotron">
+					<table id="transactionindex" class="table">
+						<thead>
+							<tr>
+								<th>
+									@Html.DisplayName("Name")
+								</th>
+								<th>
+									@Html.DisplayName("Account")
+								</th>
+								<th>
+									@Html.DisplayName("Budget")
+								</th>
+								<th>
+									@Html.DisplayName("Created By")
+								</th>
+								<th>
+									@Html.DisplayName("Type")
+								</th>
+								<th>
+									@Html.DisplayName("Amount")
+								</th>
+								<th>
+									@Html.DisplayName("Time/Date")
+								</th>
+								<th>
+									@Html.DisplayName("Manage")
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var item in Model)
+							{
+								<tr>
+									<td>
+										@Html.DisplayFor(modelItem => item.Name)
+									</td>
+									<td>
+										@Html.DisplayFor(modelItem => item.BankAccount.Name)
+									</td>
+									<td>
+										@Html.DisplayFor(modelItem => item.Budget.Name)
+									</td>
+									<td>
+										@Html.DisplayFor(modelItem => item.CreatedBy.FirstName)
+									</td>
+									<td>
+										@Html.DisplayFor(modelItem => item.TransactionType.Name)
+									</td>
+									<td>
+										@Html.DisplayFor(modelItem => item.TransactionAmount)
+									</td>
+									<td>
+										@Html.DisplayFor(modelItem => item.Created)
+									</td>
+									<td>
+										@Html.ActionLink("Details", "Details", new { id = item.Id })
+										@if (User.IsInRole("House Head"))
+										{
+											<text> | </text>
+											@Html.ActionLink("Delete", "Delete", new { id = item.Id })
+										}
+									</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$("#transactionindex").DataTable({
+        "order": [[ 6, "desc" ]]
+    });
+</script>
+
+

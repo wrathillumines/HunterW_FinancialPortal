@@ -1,0 +1,38 @@
+﻿@model IEnumerable<HunterW_FinancialPortal.Models.ApplicationUser>
+
+<div class="main-container">
+	<div class="page-title">
+		<div class="row gutters">
+			<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+				<h5 class="title">Household Members</h5>
+			</div>
+		</div>
+	</div>
+	<div class="content-wrapper">
+		<div class="row gutters">
+			@foreach (var item in Model)
+			{
+				<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+					<div class="tasks-block blue">
+						<div class="row">
+							<div class="col-md-8">
+								<div class="task-header">
+									<div class="circle">@Html.DisplayFor(modelItem => item.FirstName[0])</div>
+									<div class="usr-name">@Html.ActionLink(item.FirstName, "Profile", "Profile", new { id = item.Id }, null)</div>
+									<div class="usr-name">@Html.ActionLink(item.LastName, "Profile", "Profile", new { id = item.Id }, null)</div>
+								</div>
+								<div class="task-body">
+									<p class="time">@Html.DisplayFor(modelItem => item.DisplayName)</p>
+									<h5>@Html.DisplayFor(modelItem => item.Email)</h5>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<img src="@Html.DisplayFor(modelItem => item.AvatarUrl)" height="110" width="110" />
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+	</div>
+</div>

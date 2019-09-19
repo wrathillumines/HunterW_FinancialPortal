@@ -1,0 +1,39 @@
+﻿@model HunterW_FinancialPortal.Models.BankAccounts
+
+<div class="container">
+	<div class="row justify-content-md-center">
+		<div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
+			<div class="login-screen">
+				<div class="login-box">
+					@using (Html.BeginForm())
+					{
+						@Html.AntiForgeryToken()
+						@Html.HiddenFor(model => model.HouseholdId)
+						<a href="#" class="login-logo">
+							<span class="text-gray-dark">Create An Account</span>
+						</a>
+						<h5>Please add a bank account.</h5>
+						@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+						<div class="form-group">
+							@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Account Name" } })
+							@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+						</div>
+						<div class="form-group">
+							<p>Account Type</p>
+							@Html.DropDownList("BankAccountTypeId", null, htmlAttributes: new { @class = "form-control" })
+							@Html.ValidationMessageFor(model => model.BankAccountTypeId, "", new { @class = "text-danger" })
+						</div>
+						<div class="form-group">
+							<p>Enter starting balance below. Please enter only a number - a dollar sign is not required.</p>
+							@Html.EditorFor(model => model.Balance, new { htmlAttributes = new { @class = "form-control" } })
+							@Html.ValidationMessageFor(model => model.Balance, "", new { @class = "text-danger" })
+						</div>
+						<div class="form-group">
+							<input type="submit" value="Save" class="btn btn-primary mb-2" />
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,115 @@
+﻿@model HunterW_FinancialPortal.Models.DashboardViewModel
+
+<style>
+	.chartsize {
+		height: 300px;
+	}
+</style>
+
+
+<div class="main-container">
+	<!-- Page header start -->
+	<div class="page-title">
+		<div class="row gutters">
+			<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+				<h5 class="title"><span class="date" id="today-date"></span> | Welcome back, @ViewBag.CurrentUser!</h5>
+			</div>
+		</div>
+	</div>
+	<!-- Page header end -->
+	<!-- Content wrapper start -->
+	<div class="content-wrapper">
+		<!-- Row start -->
+		<div class="row gutters">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+				<div class="tasks-title-bar">
+					<div class="row">
+						<div class="col-md-4 col-sm-6 col-12">
+							<a class="btn btn-primary" role="button" href="@Url.Action("Create", "Transactions")">Add New Transaction</a>
+						</div>
+						<div class="col-md-4 col-sm-6 col-12">
+							<h3 class="text-center text-info">Recent Transactions</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 3 Most Recent Transactions -->
+
+		<div class="row">
+			@foreach (var item in Model.Transactions.ToList().Where(t => t.BankAccount.HouseholdId == Model.Household.Id).Take(3).OrderByDescending(t => t.Created))
+			{
+				<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+					<div class="tasks-block blue">
+						<div class="task-header">
+							<div class="circle">@Html.DisplayFor(modelItem => item.Name[0])</div>
+							<div class="usr-name">@Html.DisplayFor(modelItem => item.Name)<h5>@Html.DisplayFor(modelItem => item.TransactionType.Name)</h5></div>
+							@*<a href="javascript:void(0)" class="actions">
+								<i class="icon-dots-three-vertical"></i>
+							</a>*@
+						</div>
+						<div class="task-body">
+							<p class="time">Transaction made by</p>
+							<h6>@Html.DisplayFor(modelItem => item.CreatedBy.FirstName)</h6>
+							<p class="time">@Html.DisplayFor(modelItem => item.Created)</p>
+							<h5>@Html.DisplayFor(modelItem => item.BankAccount.Name)</h5>
+							<h5>@Html.DisplayFor(modelItem => item.Budget.Name)</h5>
+							<h5>@Html.DisplayFor(modelItem => item.Description)</h5>
+							<h4>$@Html.DisplayFor(modelItem => item.TransactionAmount)</h4>
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+
+		<!-- Account Balances -->
+
+		<div class="row">
+			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+				<h3 class="text-info text-center">Account Balances</h3>
+				<br />
+				<div class="row">
+					@foreach (var item in Model.Household.BankAccounts.ToList())
+					{
+						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-6">
+							<p style="font-size:20px" class="text-center">@Html.ActionLink(item.Name, "Details", "BankAccounts", new { id = item.Id }, null)</p>
+							<h4 class="text-center">$@Html.DisplayFor(modelItem => item.Balance)</h4>
+						</div>
+					}
+				</div>
+			</div>
+			<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+				<h3 class="text-info text-center">Budget Vs. Actual Spending</h3>
+				<div id="BudgetChart" class="chartsize"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section scripts {
+	<script type="text/javascript">
+		$(function () {
+			$.post('@Url.Action("BudgetSpentData", "Charts")').then(function (response) {
+				new Morris.Bar({
+					element: 'BudgetChart',
+					data: response,
+					hoverCallback: function (index, options, content, row) {
+						return (content);
+					},
+					grid: false,
+					gridtextsize: 10,
+					gridTextColor: 'black',
+					gridTextFamily: 'Arial',
+					barColors: ['#16367f', '#fd7274'],
+					hideHover: true,
+					xLabelAngle: 0,
+					xkey: 'Label',
+					ykeys: ['Budget', 'Spent'],
+					labels: ['Budget', 'Actual Spending'],
+					resize: true
+				});
+			});
+		});
+	</script>
+}

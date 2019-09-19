@@ -1,0 +1,253 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Meta -->
+	<meta name="description" content="Responsive Bootstrap4 Dashboard Template">
+	<meta name="author" content="ParkerThemes">
+	<link rel="shortcut icon" href="~/Images/fav.png" />
+
+	<!-- Title -->
+	<title>HW Budget Assistant</title>
+
+
+
+	<!-- *************
+		************ Common Css Files *************
+		************ -->
+	<!-- Bootstrap css -->
+	<link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+
+	<!-- Icomoon Font Icons css -->
+	<link rel="stylesheet" type="text/css" href="~/Content/style.css" />
+
+	<!-- Tasks css -->
+	<link href="~/Content/tasks.css" rel="stylesheet" />
+
+	<!-- Main css -->
+	<link rel="stylesheet" href="~/Content/main.css" />
+
+	<!-- Morris charts -->
+	<link rel="stylesheet" href="~/Content/morris.css" />
+
+	<!-- *************
+		************ Vendor Css Files *************
+		************ -->
+	<!-- Datepickers css -->
+	<link rel="stylesheet" href="~/Content/daterange.css" />
+
+
+</head>
+<body>
+
+	<!-- Loading starts -->
+	<div id="loading-wrapper">
+		<div class="spinner-border text-apex-yellow" role="status">
+			<span class="sr-only">Loading...</span>
+		</div>
+	</div>
+	<!-- Loading ends -->
+
+	<div class="container">
+
+
+		<!-- *************
+			************ Header section start *************
+			************* -->
+		<!-- Header start -->
+		<header class="header">
+			<!-- Row start -->
+			<div class="row gutters">
+				<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-6">
+					@Html.ActionLink("Budget Assistant", "Dashboard", "Home", null, new { @class = "logo" })
+				</div>
+				<div class="col-xl-8 col-lg-8 col-md-6 col-sm-6 col-6">
+					<!-- Header actions start -->
+					<ul class="header-actions">
+						<!-- Notifications start -->
+						<li class="dropdown d-none d-sm-block">
+							<a href="#" id="notifications" data-toggle="dropdown" aria-haspopup="true">
+								<img src="~/Images/notification.svg" alt="notifications" class="list-icon" />
+							</a>
+							<div class="dropdown-menu lrg" aria-labelledby="notifications">
+								<div class="dropdown-menu-header">
+									<h5>Notifications</h5>
+									<p class="m-0 sub-title">You have 5 unread notifications</p>
+								</div>
+								<ul class="header-notifications">
+									@*<li>
+										<a href="#" class="clearfix">
+											<div class="avatar">
+												<img src="img/user.png" alt="avatar" />
+												<span class="notify-iocn icon-drafts text-danger"></span>
+											</div>
+											<div class="details">
+												<h6>Corey Haggard</h6>
+												<p>This is so good, I can't stop watching.</p>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a href="#" class="clearfix">
+											<div class="avatar">
+												<img src="img/user2.png" alt="avatar" />
+												<span class="notify-iocn icon-layers text-info"></span>
+											</div>
+											<div class="details">
+												<h6>Eric R. Mortensen</h6>
+												<p>Eric sent you a file. Download now</p>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a href="#" class="clearfix">
+											<div class="avatar">
+												<img src="img/user3.png" alt="avatar" />
+												<span class="notify-iocn icon-person_add text-success"></span>
+											</div>
+											<div class="details">
+												<h6>Gleb Kuznetsov</h6>
+												<p>Stella, Added you as a Friend. Accept.</p>
+											</div>
+										</a>
+									</li>*@
+								</ul>
+							</div>
+						</li>
+						<!-- Notifications end -->
+						<!-- User settings start -->
+						@Html.Partial("_UserPartial")
+						<!-- User settings end -->
+					</ul>
+					<!-- Header actions end -->
+				</div>
+			</div>
+			<!-- Row end -->
+		</header>
+		<!-- Header end -->
+		<!-- Navigation start -->
+		<div class="row">
+			<div class="col-md-4">
+				<img src="~/Images/hwlogo.png" />
+			</div>
+			<div class="col-md-4">
+				<nav class="navbar navbar-expand-lg custom-navbar">
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#retailAdminNavbar" aria-controls="retailAdminNavbar" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon">
+							<i></i>
+							<i></i>
+							<i></i>
+						</span>
+					</button>
+					<div class="collapse navbar-collapse" id="retailAdminNavbar">
+						<ul class="navbar-nav m-auto">
+							@using HunterW_FinancialPortal.Models
+							@using Microsoft.AspNet.Identity
+							@{ ApplicationDbContext db = new ApplicationDbContext(); }
+							@{ var currentUser = db.Users.Find(User.Identity.GetUserId()); }
+							@if (currentUser.MyHouseId != null)
+							{
+								<li class="nav-item">
+									<a class="nav-link" href="@Url.Action("Dashboard", "Home")">
+										<i class="icon-star-outlined nav-icon"></i>
+										Dashboard
+									</a>
+								</li>
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#" id="formsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<i class="icon-home2 nav-icon"></i>
+										My Household
+									</a>
+									<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="formsDropdown">
+										<li>
+											@Html.ActionLink("Member List", "Members", "Households", null, new { @class = "dropdown-item" })
+										</li>
+										@if (User.IsInRole("User"))
+										{
+											<li>
+												@Html.ActionLink("My Budgets", "Index", "Budgets", null, new { @class = "dropdown-item" })
+											</li>
+										}
+										@if (User.IsInRole("House Head"))
+										{
+											<li class="nav-item dropdown">
+												<a class="dropdown-item" href="#">Budgets</a>
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li>
+														@Html.ActionLink("My Budgets", "Index", "Budgets", null, new { @class = "dropdown-item" })
+													</li>
+													<li>
+														@Html.ActionLink("Create New", "Create", "Budgets", null, new { @class = "dropdown-item" })
+													</li>
+												</ul>
+											</li>
+											<li>
+												@Html.ActionLink("New Bank Account", "Create", "BankAccounts", null, new { @class = "dropdown-item" })
+											</li>
+										}
+									</ul>
+								</li>
+							}
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#" id="formsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="icon-user1 nav-icon"></i>
+									My Profile
+								</a>
+								<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="formsDropdown">
+									<li>
+									</li>
+									<li>
+										@Html.ActionLink("View My Profile", "MyProfile", "Profile", null, new { @class = "dropdown-item" })
+									</li>
+									<li>
+										@Html.ActionLink("Edit My Profile", "EditProfile", "Profile", null, new { @class = "dropdown-item" })
+									</li>
+								</ul>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="@Url.Action("Credentials", "Manage")">
+									<i class="icon-sound-mix nav-icon"></i>
+									Account
+								</a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+			</div>
+		</div>
+		<!-- Navigation end -->
+		<!-- *************
+			************ Header section end *************
+			************* -->
+
+		@RenderBody()
+	</div>
+	<!-- *************
+			************ Required JavaScript Files *************
+		************* -->
+	<!-- Required jQuery first, then Bootstrap Bundle JS -->
+	<script src="~/Scripts/jquery.min.js"></script>
+	<script src="~/Scripts/bootstrap.bundle.min.js"></script>
+	<script src="~/Scripts/nav.min.js"></script>
+	<script src="~/Scripts/moment.js"></script>
+
+
+	<!-- *************
+			************ Vendor Js Files *************
+		************* -->
+	<!-- Daterange -->
+	<script src="~/Scripts/daterange.js"></script>
+
+	<!-- Morris Charts -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+	<!-- Main Js Required -->
+	<script src="~/Scripts/main.js"></script>
+
+	@RenderSection("scripts", required: false)
+</body>
+</html>

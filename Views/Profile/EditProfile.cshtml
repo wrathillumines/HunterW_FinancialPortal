@@ -1,0 +1,104 @@
+﻿@model HunterW_FinancialPortal.Models.UserProfileViewModel
+
+<style>
+	.fileupload {
+		width: 0.1px;
+		height: 0.1px;
+		opacity: 0;
+		overflow: hidden;
+		position: absolute;
+		z-index: -1;
+	}
+
+	.avatar {
+		text-align: right;
+	}
+
+	.savebutton {
+		margin-left: 15px;
+	}
+</style>
+
+<div class="main-container">
+	<!-- Page header start -->
+	<div class="page-title">
+		<div class="row gutters">
+			<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+				<h5 class="title">My Profile</h5>
+			</div>
+		</div>
+	</div>
+	<!-- Page header end -->
+	<!-- Content wrapper start -->
+	<div class="content-wrapper">
+		<!-- Row start -->
+		<div class="row gutters">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center">
+				<div class="jumbotron">
+					<h4 class="display-4 text-info">Edit My Profile</h4>
+					<hr class="my-4" />
+					@using (Html.BeginForm("EditProfile", "Profile", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+					{
+						@Html.AntiForgeryToken()
+
+						<div class="form-horizontal">
+							@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+							@Html.HiddenFor(model => model.Id)
+							@Html.HiddenFor(model => model.Email)
+							<div class="row">
+								<div class="col-md-5">
+									<div class="row">
+										<div class="col-md-12 avatar">
+											<br />
+											<img src="@Model.AvatarUrl" height="250" width="250" />
+										</div>
+									</div>
+								</div>
+								<div class="col-md-7 text-left">
+									<div class="form-group">
+										@Html.LabelFor(model => model.DisplayName, htmlAttributes: new { @class = "control-label col-md-2" })
+										<div class="col-md-7">
+											@Html.EditorFor(model => model.DisplayName, new { htmlAttributes = new { @class = "form-control" } })
+											@Html.ValidationMessageFor(model => model.DisplayName, "", new { @class = "text-danger" })
+										</div>
+									</div>
+
+									<div class="form-group">
+										@Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+										<div class="col-md-7">
+											@Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+											@Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+										</div>
+									</div>
+
+									<div class="form-group">
+										@Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+										<div class="col-md-7">
+											@Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+											@Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+										</div>
+									</div>
+								</div>
+							</div>
+							<br />
+							<div class="row">
+								<div class="col-md-5 text-right">
+									<input type="file" name="Avatar" id="Avatar" class="fileupload" />
+									<label for="Avatar" class="btn btn-primary">Change Avatar</label>
+									@Html.ValidationMessageFor(model => model.AvatarUrl, "", new { @class = "text-danger" })
+								</div>
+								<div class="col-md-7 text-left">
+									<div class="form-group">
+										<input type="submit" value="Save Changes" class="btn btn-primary savebutton" />
+									</div>
+								</div>
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+		<!-- Row end -->
+	</div>
+	<!-- Content wrapper end -->
+</div>

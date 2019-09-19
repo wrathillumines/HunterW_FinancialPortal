@@ -1,0 +1,86 @@
+﻿@using Microsoft.AspNet.Identity
+<!-- *************
+	************ Main container start *************
+	************* -->
+
+<div class="main-container">
+
+
+	<!-- Page header start -->
+	<div class="page-title">
+		<div class="row gutters">
+			<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+				<h5 class="title">Welcome to the lobby, @ViewBag.CurrentUser!</h5>
+			</div>
+		</div>
+	</div>
+	<!-- Page header end -->
+	<!-- Content wrapper start -->
+	<div class="content-wrapper">
+
+
+		<!-- ************************** Welcome Message ************************** -->
+		<!-- Row start -->
+		<div class="row gutters justify-content-center">
+			<div class="col-12 text-center">
+				<h4>You are in the lobby because you are not yet in a household.</h4>
+				<h5>Add a new household or, if invited, join an existing household.</h5>
+			</div>
+		</div>
+		<br />
+		<div class="row gutters justify-content-center">
+			<div class="btn-group btn-group-lg">
+				@Html.ActionLink("Create", "Create", "Households", null, new { @class = "btn btn-primary" })
+				@Html.ActionLink("Join", "Join", "Households", null, new { @class = "btn btn-primary" })
+			</div>
+
+			@*<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+
+				<div class="daily-sales">
+					<h6>Customers</h6>
+					<h1>10,000</h1>
+					<p>Total Customers</p>
+					<div id="apexLineChartGradient" class="green-graph"></div>
+				</div>
+
+			</div>
+			<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+
+				<div class="daily-sales">
+					<h6>Revenue</h6>
+					<h1>45,000</h1>
+					<p>Total Revenue</p>
+					<div id="apexLineChartGradient2" class="orange-graph"></div>
+				</div>
+
+			</div>
+			<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+
+				<div class="daily-sales">
+					<h6>Expenses</h6>
+					<h1>23,000</h1>
+					<p>Total Expenses</p>
+					<div id="apexLineChartGradient3" class="pink-graph"></div>
+				</div>
+
+			</div>
+			<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+
+				<div class="daily-sales">
+					<h6>Profit</h6>
+					<h1>22,000</h1>
+					<p>Total Profit</p>
+					<div id="apexLineChartGradient4" class="lavandar-graph"></div>
+				</div>
+
+			</div>*@
+		</div>
+		<!-- Row end -->
+	</div>
+	<!-- Content wrapper end -->
+
+
+</div>
+<!-- *************
+	************ Main container end *************
+	************* -->
