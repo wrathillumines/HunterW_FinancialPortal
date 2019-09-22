@@ -9,6 +9,9 @@ using System.Web.Configuration;
 using HunterW_FinancialPortal.Helpers;
 using System.IO;
 using System.Net.Mail;
+using System;
+using System.Text;
+using System.Linq;
 
 namespace HunterW_FinancialPortal.Controllers
 {
@@ -19,10 +22,7 @@ namespace HunterW_FinancialPortal.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationDbContext db = new ApplicationDbContext();
-
-        public AccountController()
-        {
-        }
+        private UserRolesHelper roleHelper = new UserRolesHelper();
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
@@ -59,7 +59,6 @@ namespace HunterW_FinancialPortal.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            //ViewBag.CurrentUser = UserManager.FindById(User.Identity.GetUserId()).FirstName;
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -115,12 +114,16 @@ namespace HunterW_FinancialPortal.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, int? myHouseId, Guid code)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser
+                if (myHouseId == 0)
+                    myHouseId = null;
+
+                var user = new ApplicationUser()
                 {
+                    MyHouseId = myHouseId,
                     UserName = model.Email,
                     DisplayName = model.DisplayName,
                     Email = model.Email,
@@ -131,6 +134,11 @@ namespace HunterW_FinancialPortal.Controllers
 
                 if (UploadHelper.IsWebFriendlyImage(model.Avatar))
                 {
+                    //var rootFileName = Path.GetFileNameWithoutExtension(model.Avatar.FileName);
+                    //var fileExt = Path.GetExtension(model.Avatar.FileName);
+
+                    //rootFileName = $"{StringUtilities.URLFriendly(rootFileName)}-{DateTime.Now.Ticks}";
+                    
                     var fileName = Path.GetFileName(model.Avatar.FileName);
                     model.Avatar.SaveAs(Path.Combine(Server.MapPath("~/Avatars/"), fileName));
                     user.AvatarUrl = "/Avatars/" + fileName;
@@ -139,20 +147,31 @@ namespace HunterW_FinancialPortal.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    if (code == new Guid())
+                        roleHelper.AddUserToRole(user.Id, "Lobby");
+                    else
+                    {
+                        var invitation = db.Invitations.FirstOrDefault(i => i.Code == code);
+                        invitation.IsValid = false;
+                        db.SaveChanges();
+
+                        roleHelper.AddUserToRole(user.Id, "User");
+                    }
+
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    var emailFrom = WebConfigurationManager.AppSettings["emailfrom"];
-                    MailMessage mailMessage = new MailMessage(emailFrom, model.Email)
-                    {
-                        Subject = "Confirm your account",
-                        Body = "<p><span style=\"font-family: arial;\">Thank you for registering.</span></p><p><span style=\"font-family: arial;\">Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>.</span></p>",
-                        IsBodyHtml = true
-                    };
+                    //        string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    //        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    //        var emailFrom = WebConfigurationManager.AppSettings["emailfrom"];
+                    //        MailMessage mailMessage = new MailMessage(emailFrom, model.Email)
+                    //        {
+                    //            Subject = "Confirm your account",
+                    //            Body = "<p><span style=\"font-family: arial;\">Thank you for registering.</span></p><p><span style=\"font-family: arial;\">Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>.</span></p>",
+                    //            IsBodyHtml = true
+                    //        };
 
-                    var service = new EmailConfirm();
-                    await service.SendAsync(mailMessage);
+                    //        var service = new EmailConfirm();
+                    //        await service.SendAsync(mailMessage);
 
                     return RedirectToAction("EmailConfirmationSent", "Account");
                 }
@@ -160,6 +179,8 @@ namespace HunterW_FinancialPortal.Controllers
             }
 
             // If we got this far, something failed, redisplay form
+            ViewBag.Code = code;
+            ViewBag.HouseholdId = myHouseId;
             return View(model);
         }
 
@@ -281,6 +302,37 @@ namespace HunterW_FinancialPortal.Controllers
         public ActionResult ResetPasswordConfirmation()
         {
             return RedirectToAction("Login", "Account");
+        }
+
+        //
+        // Invitation stuff
+        [AllowAnonymous]
+        public ActionResult AcceptAndRegister(string recipientEmail, Guid code)
+        {
+            var invitation = db.Invitations.FirstOrDefault(i => i.RecipientEmail == recipientEmail && i.Code == code);
+            if (invitation.IsValid && DateTime.Now < invitation.TTL)
+            {
+                ViewBag.Code = code;
+                ViewBag.HouseholdId = invitation.HouseholdId;
+
+                RegisterViewModel registerViewModel = new RegisterViewModel() { Email = recipientEmail };
+                return View("Register", registerViewModel);
+            }
+
+            var errorMsg = new StringBuilder();
+            if (DateTime.Now > invitation.TTL)
+            {
+                errorMsg.AppendLine("Aww man. That code has expired.");
+            }
+
+            if (!invitation.IsValid)
+            {
+                errorMsg.AppendLine("Aww man. That code is no longer valid.");
+            }
+
+            TempData["ErrorMsg"] = errorMsg.ToString();
+
+            return RedirectToAction("Oof", "Admin");
         }
 
         #region Helpers

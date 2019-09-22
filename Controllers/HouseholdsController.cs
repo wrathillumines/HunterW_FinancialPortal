@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using HunterW_FinancialPortal.Helpers;
@@ -16,6 +17,7 @@ namespace HunterW_FinancialPortal.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         UserRolesHelper roleHelper = new UserRolesHelper();
+        InvitationHelper inviteHelper = new InvitationHelper();
 
         // GET: Household Member List
         public ActionResult Members()
@@ -62,6 +64,23 @@ namespace HunterW_FinancialPortal.Controllers
             }
 
             return RedirectToAction("Lobby", "Home");
+        }
+
+        //GET: SendHouseInvitation
+        public ActionResult SendHouseInvitation(int id)
+        {
+            var invite = new Invitation { HouseholdId = id };
+            return View(invite);
+        }
+
+        //POST: SendHouseInvitation
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SendHouseInvitation(Invitation model)
+        {
+            var invite = inviteHelper.CreateInvite(model);
+            await inviteHelper.SendHouseInvite(invite);
+            return RedirectToAction("Details", "Households", new { id = model.HouseholdId });
         }
 
         protected override void Dispose(bool disposing)

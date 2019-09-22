@@ -1,0 +1,53 @@
+﻿@{
+	Layout = null;
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Meta -->
+	<meta name="description" content="Responsive Bootstrap4 Dashboard Template">
+	<meta name="author" content="ParkerThemes">
+	<link rel="shortcut icon" href="~/Images/fav.png" />
+
+	<!-- Title -->
+	<title>HW Budget Assistant</title>
+
+	<!-- *************
+		************ Common Css Files *************
+		************ -->
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+
+	<!-- Master CSS -->
+	<link rel="stylesheet" href="~/Content/main.css" />
+
+</head>
+
+<body class="authentication">
+
+	<!-- Container start -->
+	<div class="container">
+		<div class="row justify-content-md-center">
+			<div class="col-xl-5 col-lg-6 col-md-6 col-sm-12">
+				<div class="login-screen">
+					<div class="login-box">
+						<a href="#" class="login-logo">
+							<span class="text-dark">Oof. That didn't work.</span>
+						</a>
+						<h5>@TempData["ErrorMsg"]</h5>
+						<br />
+						<a href="@Url.Action("Login", "Account")" class="btn btn-primary">Return To Login</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Container end -->
+
+</body>
+</html>

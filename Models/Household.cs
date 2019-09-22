@@ -16,12 +16,14 @@ namespace HunterW_FinancialPortal.Models
         public virtual ICollection<Budget> Budget { get; set; }
         public virtual ICollection<BankAccounts> BankAccounts { get; set; }
         public virtual ICollection<ApplicationUser> MyHouse { get; set; }
+        public virtual ICollection<Invitation> Invitations { get; set; }
 
         public Household()
         {
             BankAccounts = new HashSet<BankAccounts>();
             Budget = new HashSet<Budget>();
             MyHouse = new HashSet<ApplicationUser>();
+            Invitations = new HashSet<Invitation>();
         }
     }
 }
