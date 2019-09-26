@@ -178,6 +178,7 @@
     <Compile Include="Controllers\ChartsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HouseholdsController.cs" />
+    <Compile Include="Controllers\InvitationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\TransactionsController.cs" />
@@ -185,7 +186,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\InvitationHelper.cs" />
     <Compile Include="Helpers\NameHelper.cs" />
     <Compile Include="Helpers\UploadHelper.cs" />
     <Compile Include="Helpers\UserRolesHelper.cs" />
@@ -369,11 +369,10 @@
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Admin\Oof.cshtml" />
-    <Content Include="Views\Households\SendHouseInvitation.cshtml" />
+    <Content Include="Views\Invitations\SendHouseInvitation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\InvitationHelper\" />
     <Folder Include="Views\TransactionExtensions\" />
   </ItemGroup>
   <ItemGroup>
