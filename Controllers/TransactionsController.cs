@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using HunterW_FinancialPortal.ExtensionMethods;
 using HunterW_FinancialPortal.Models;
@@ -12,6 +10,7 @@ using Microsoft.AspNet.Identity;
 
 namespace HunterW_FinancialPortal.Controllers
 {
+    [Authorize]
     public class TransactionsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

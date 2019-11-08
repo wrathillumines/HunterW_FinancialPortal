@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace HunterW_FinancialPortal.Controllers
 {
+    [Authorize(Roles = "House Head")]
     public class InvitationsController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();

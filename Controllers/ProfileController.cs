@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace HunterW_FinancialPortal.Controllers
 {
+    [Authorize]
     public class ProfileController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

@@ -54,5 +54,9 @@ namespace HunterW_FinancialPortal.Models
         public DbSet<BudgetItem> BudgetItems { get; set; }
         public DbSet<Household> Households { get; set; }
         public DbSet<Invitation> Invitations { get; set; }
+
+        public System.Data.Entity.DbSet<HunterW_FinancialPortal.Models.Notification> Notifications { get; set; }
+
+        public System.Data.Entity.DbSet<HunterW_FinancialPortal.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

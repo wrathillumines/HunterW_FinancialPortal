@@ -18,10 +18,12 @@ namespace HunterW_FinancialPortal.Models
         public virtual BankAccountType BankAccountTypes { get; set; }
         public virtual Household Household { get; set; }
         public virtual ICollection<Transaction> Transaction { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
 
         public BankAccounts()
         {
             Transaction = new HashSet<Transaction>();
+            Notifications = new HashSet<Notification>();
         }
     }
 }

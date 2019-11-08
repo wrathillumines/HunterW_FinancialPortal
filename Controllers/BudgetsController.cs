@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace HunterW_FinancialPortal.Controllers
 {
+    [Authorize]
     public class BudgetsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -38,6 +39,7 @@ namespace HunterW_FinancialPortal.Controllers
         }
 
         // GET: Budgets/Create
+        [Authorize(Roles = "House Head")]
         public ActionResult Create(string userId)
         {
             ApplicationUser currentUser = db.Users.Find(userId);
@@ -70,6 +72,7 @@ namespace HunterW_FinancialPortal.Controllers
         }
 
         // GET: Budgets/Edit/5
+        [Authorize(Roles = "House Head")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -103,6 +106,7 @@ namespace HunterW_FinancialPortal.Controllers
         }
 
         // GET: Budgets/Delete/5
+        [Authorize(Roles = "House Head")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

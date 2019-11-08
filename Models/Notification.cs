@@ -5,7 +5,7 @@ namespace HunterW_FinancialPortal.Models
     public class Notification
     {
         public int Id { get; set; }
-        public int BudgetId { get; set; }
+        public int BankAccountId { get; set; }
         public string RecipientId { get; set; }
         public string SenderId { get; set; }
         public string Subject { get; set; }
@@ -17,6 +17,6 @@ namespace HunterW_FinancialPortal.Models
         //virtual
         public virtual ApplicationUser Recipient { get; set; }
         public virtual ApplicationUser Sender { get; set; }
-        public virtual Budget Budget { get; set; }
+        public virtual BankAccounts BankAccount { get; set; }
     }
 }
